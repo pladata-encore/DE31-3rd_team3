@@ -1,0 +1,15 @@
+# basic python ignore
+*.pyc
+__pycache__/
+pyvenv.cfg
+
+# python venv ignore
+venv/
+
+# ide ignore
+.idea/
+.vscode/
+
+# nodejs ignore
+node_modules/
+npm-debug.log
