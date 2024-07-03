@@ -1,9 +1,8 @@
 <script setup>
-
 </script>
 
 <template>
   <main>
-    <h1>메인 화면</h1>
+    <h1>월간 뉴스</h1>
   </main>
 </template>
