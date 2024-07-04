@@ -48,7 +48,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4.3. Node.js 설치
+### 4.3. mecab 설치
+- mecab 설치
+```bash
+bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
+```
+
+### 4.4. Node.js 설치
 - Node.js Stable 버전 설치
 ```bash
 sudo apt install nodejs

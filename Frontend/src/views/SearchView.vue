@@ -1,20 +1,14 @@
 <script setup>
 import { ref } from 'vue';
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-} from 'chart.js'
-import { Bar } from 'vue-chartjs'
+import axios from 'axios';
 
 import WordCloud from '../components/WordCloud.vue'
 import BarChart from '../components/BarChart.vue'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+async function getDataFromApi(target_api, params) {
+  const url = `http://140.238.153.4:21080/api/v1/${target_api}`;
+  return axios.get(url);
+}
 
 const searchbox = ref('');
 const chartbox = ref(null);
@@ -24,6 +18,15 @@ let count = 0;
 function searchNews(event) {
   if (event.keyCode === 13) {
     enableWidgets();
+    // get data from api
+    getDataFromApi('health', { query: searchbox.value })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      
     if (count > 3) {
       // update chart data
       chartbox.value.updateBarChart(
@@ -51,10 +54,6 @@ function searchNews(event) {
 function enableWidgets() {
   chartbox.value.$refs.barChart.style.display = 'block';
   wordcloudbox.value.$refs.wordCloudCanvas.style.display = 'block';
-}
-
-function getDataFromApi() {
-  // code here
 }
 </script>
 
