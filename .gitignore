@@ -1,6 +1,7 @@
 # basic python ignore
 *.pyc
 __pycache__/
+.ipynb_checkpoints/
 
 # python venv ignore
 pyvenv.cfg
