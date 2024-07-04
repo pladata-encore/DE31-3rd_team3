@@ -1,10 +1,12 @@
 <template>
+  <h1>뉴스 분석 플랫폼</h1>
   <nav>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="/">메인 화면</a></li>
+      <li><a href="/monthly">월간 뉴스</a></li>
+      <li><a href="/weekly">주간 뉴스</a></li>
+      <li><a href="/daily">일간 뉴스</a></li>
+      <li><a href="/search">뉴스 검색</a></li>
     </ul>
   </nav>
 </template>
@@ -17,25 +19,27 @@ export default {
 </script>
 
 <style scoped>
-/* Add your component styles here */
+h1 {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
 nav {
-  background-color: #f2f2f2;
-  padding: 10px;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
 }
 
 ul {
-  list-style-type: none;
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  list-style: none;
   padding: 0;
 }
 
 li {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-a {
-  text-decoration: none;
-  color: #333;
+  margin: 0 1rem;
+  color: white;
 }
 </style>

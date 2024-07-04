@@ -1,9 +1,9 @@
 # basic python ignore
 *.pyc
 __pycache__/
-pyvenv.cfg
 
 # python venv ignore
+pyvenv.cfg
 venv/
 
 # ide ignore
@@ -13,3 +13,7 @@ venv/
 # nodejs ignore
 node_modules/
 npm-debug.log
+
+# enviroment files
+.env
+*.env
