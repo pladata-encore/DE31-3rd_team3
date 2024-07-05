@@ -16,14 +16,14 @@ DE31-3rd_team3
 │   ├── naver_news_crawler.py # 네이버 뉴스 크롤러
 │   └── to_database.py # 크롤링한 데이터를 데이터베이스에 저장
 ├── Frontend  # 프론트엔드 관련 코드
-│   ├── 1
-│   └── 2
+│   ├── App.vue # Vue.js 메인 파일
+│   └── src    # Vue.js 소스코드
 ├── Backend   # 백엔드 관련 코드
-│   ├── 1
-│   └── 2
+│   └── api_server.py # FastAPI 서버
 ├── Infra     # 인프라 관련 코드
 │   ├── mysql_docker.sh # mysql 도커 컨테이너 실행 스크립트
-│   └── 2
+│   ├── spark_install.sh # spark 설치 스크립트
+│   └── hadoop_install.sh # hadoop 설치 스크립트
 ├── README.md
 └── requirements.txt # python 패키지 목록
 ```

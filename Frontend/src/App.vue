@@ -9,14 +9,17 @@ import Navbar from './components/Navbar.vue'
       <Navbar />
     </div>
   </header>
-
-  <RouterView />
+  
+  <RouterView style="display: flex; flex-direction: column;" />
 </template>
 
 <style scoped>
 body {
   font-family: Arial, sans-serif;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
@@ -24,4 +27,5 @@ header {
   color: white;
   padding: 1rem;
 }
+
 </style>
