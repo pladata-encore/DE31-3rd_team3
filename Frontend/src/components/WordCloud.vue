@@ -1,62 +1,65 @@
 <template>
-  <div>
-    <canvas ref="wordCloudCanvas" style="display: none;"></canvas>
+  <div id="canvasContainer">
+    <canvas ref="treeChart" width="600" height="450"></canvas>
   </div>
 </template>
-
 <script>
-import { Chart } from 'chart.js';
-import { WordCloudController, WordElement } from 'chartjs-chart-wordcloud';
+import { ref } from 'vue';
 
-Chart.register(WordCloudController, WordElement);
+import { Chart } from 'chart.js';
+import {TreemapController, TreemapElement} from 'chartjs-chart-treemap';
+
+Chart.register(TreemapController, TreemapElement);
+
+function colorFromRaw(ctx) {
+  if (ctx.type !== 'data') {
+    return 'transparent';
+  }
+  const value = ctx.raw.v;
+  let alpha = (1 + Math.log(value)) / 5;
+  const color = 'green';
+  return helpers.color(color)
+    .alpha(alpha)
+    .rgbString();
+}
+
+const data = [
+  {name: 'main', value: 1},
+  {name: 'main', value: 2},
+  {name: 'main', value: 3},
+  {name: 'other', value: 4},
+  {name: 'other', value: 5},
+];
 
 export default {
   data() {
-    return this.wordCloudInstance = null;
+    return this.chartInstance = null;
   },
   mounted() {
-    this.renderWordCloud();
+    this.renderTreeChart();
   },
   methods: {
-    renderWordCloud() {
-      const words = [
-        { key: 'word', value: 10 },
-        { key: 'words', value: 8 },
-        { key: 'cloud', value: 6 },
-        { key: 'chart', value: 4 },
-        { key: 'js', value: 2 },
-        { key: 'vue', value: 1 }
-      ];
-
-      const data = {
-        labels: words.map((d) => d.key),
-        datasets: [
-          {
-            label: '',
-            data: words.map((d) => 10 + d.value * 7),
-          },
-        ],
-      };
-
+    renderTreeChart() {
       const config = {
-        type: 'wordCloud',
-        data: data,
-        options: {
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
+        type: 'treemap',
+        data: {
+          datasets: [{
+            tree: data,
+            key: 'value',
+            groups: ['name'],
+            backgroundColor: (ctx) => colorFromRaw(ctx),
+          }]
         },
+        options: {
+        }
       }
 
-      const canvas = this.$refs.wordCloudCanvas;
-      this.wordCloudInstance = new Chart(canvas, config);
+      const canvas = this.$refs.treeChart;
+      this.chartInstance = new Chart(canvas, config);
     },
-    updateWordCloud(words) {
-      this.wordCloudInstance.data.labels = words.map((d) => d.key);
-      this.wordCloudInstance.data.datasets[0].data = words.map((d) => 10 + d.value * 7);
-      this.wordCloudInstance.update();
+    updateTreeChart(data) {
+      this.chartInstance.data.datasets[0].tree = data;
+      this.chartInstance.update();
     },
   },
 };
@@ -64,7 +67,7 @@ export default {
 
 <style scoped>
 div {
-  width: 100%;
-  height: 30rem;
+  width: 600px;
+  height: 350px;
 }
 </style>
