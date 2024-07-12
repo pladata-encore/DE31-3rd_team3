@@ -1,0 +1,23 @@
+{
+  "name": "de31-3rd-fe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 20080 -H '0.0.0.0'",
+    "build": "next build",
+    "start": "next start -p 20080 -H '0.0.0.0'",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@wojtekmaj/react-daterange-picker": "^6.0.0",
+    "d3": "^7.9.0",
+    "d3-cloud": "^1.2.7",
+    "next": "14.2.4",
+    "react": "^18",
+    "react-date-range": "^2.0.1",
+    "react-dom": "^18",
+    "rsuite": "^5.65.1",
+    "sharp": "^0.33.4"
+  }
+}
