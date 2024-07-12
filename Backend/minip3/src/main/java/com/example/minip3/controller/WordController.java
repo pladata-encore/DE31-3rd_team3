@@ -46,20 +46,17 @@ public class WordController {
         @Schema (description = "ex)yyyy-mm-dd 입력(2024-05-01 ~ 2024-05-28)")
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
         @Schema (description = "ex)yyyy-mm-dd 입력(2024-05-01 ~ 2024-05-28)")
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
-        @Schema (description = "정치-100    경제-101    사회-102    생활/문화-103   세계-104    IT/과학-105")
-        @RequestParam int param1,
-        // param2도 param1에 따라 바뀌게 하면 좋을듯
-        @RequestParam int param2
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
         ) {
-        // 날짜 A와 날짜 B 그리고 MAIN_SEC SUB_SEC 인자
-        List<Word> newsResponseDtoList = wordService.getNews_rangenews(startDate.atStartOfDay(), endDate.atStartOfDay(),param1,param2);
+        // 날짜 A와 날짜 B 
+        List<Word> newsResponseDtoList = wordService.getNews_rangenews(startDate.atStartOfDay(), endDate.atStartOfDay());
         return ResponseEntity.status(HttpStatus.OK).body(newsResponseDtoList);
     }
 
     @GetMapping("/searchnews")
     //keyword: str, date: str
     public ResponseEntity<List<Word>> getNews_searchnews(
+        @Schema (description = "궁금한 keyword입력")
         @RequestParam String param1,
         @Schema (description = "ex)yyyy-mm-dd 입력(2024-05-01 ~ 2024-05-28)")
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date

@@ -28,21 +28,19 @@ public class WordDAOImpl implements WordDAO{ //주키가 없으므로 JPA대신 
         this.jdbcTemplate = jdbcTemplate;
     }
     @Override
-    public List<Word> findByDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate,int param1,int param2) {
+    public List<Word> findByDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate) {
         // JDBC를 사용하여 SQL 쿼리 실행
-        //WORD_COUNTS 테이블에서 날짜가 atStartOfDay과 atStartOfDay2 사이인 값들중 MAIN_SEC이 PARAM1이고
-        // SUB_SUB가 PARAM2인 애들을 WORD로 묶어서 각 나온 개수의 합을 SUM(FREQUENCY) 하여서 내림차순으로
+        //WORD_COUNTS 테이블에서 날짜가 atStartOfDay과 atStartOfDay2 사이인 값들중 
+        //  WORD로 묶어서 각 나온 개수의 합을 SUM(FREQUENCY) 하여서 내림차순으로
         // 500개가져오기
-        String sql = "SELECT word, SUM(frequency) AS total_frequency FROM word_counts WHERE datetime BETWEEN ? AND ? AND main_sec = ? AND sub_sub = ? GROUP BY word ORDER BY total_frequency DESC LIMIT 500 ";
-        // OBJECT배열에 ? 에 들어갈 인자 4개 선언하고, RESULTSET라는 RS(테이블 로우행 구조) , ROWNUM은 현재행
+        String sql = "SELECT word AS name, SUM(frequency) AS value FROM word_counts WHERE datetime BETWEEN ? AND ? GROUP BY word ORDER BY value DESC LIMIT 500 ";
+        // OBJECT배열에 ? 에 들어갈 인자 2개 선언하고, RESULTSET라는 RS(테이블 로우행 구조) , ROWNUM은 현재행
         // 각각 JdbcTemplate 이 알아서 rs.next()하면서 Word라는 객체 만듬
         List<Word> words = new ArrayList<>(); //RETURN 할 LIST
         try (Connection conn = jdbcTemplate.getDataSource().getConnection(); //properties에 있는 정보로 db연결
          PreparedStatement ps = conn.prepareStatement(sql)) { //미리 선언된 sql로 동적파라미터 바인딩
             ps.setObject(1, startDate); //첫번째 ?에 input
             ps.setObject(2, endDate); //두번째 ?에 input
-            ps.setObject(3, param1); //세번째 ? 에 input
-            ps.setObject(4, param2); //네번째 ? 에 input
             System.out.println(ps); //디버그
             try (ResultSet rs = ps.executeQuery()) { //실행시킨걸 rs객체에 넣기
                 while (rs.next()) { //존재할때까지
@@ -50,8 +48,8 @@ public class WordDAOImpl implements WordDAO{ //주키가 없으므로 JPA대신 
                     // word.setDatetime(rs.getTimestamp("datetime").toLocalDateTime());
                     // word.setMainSec(rs.getString("main_sec"));
                     // word.setSubSub(rs.getString("sub_sub"));
-                    word.setWord(rs.getString("word"));
-                    word.setFrequency(rs.getInt("total_frequency"));
+                    word.setWord(rs.getString("name"));
+                    word.setFrequency(rs.getInt("value"));
                     words.add(word);
                 }
             }

@@ -27,8 +27,8 @@ public class WordServiceImpl  implements WordService{
     }
     //service이므로 함수 로직만 선언!!! -> worddao interface 에 선언 -> 이것이 word dao imp에서 구현
     @Override
-    public List<Word> getNews_rangenews(LocalDateTime atStartOfDay, LocalDateTime atStartOfDay2, int param1, int param2) {
-        return wordDAO.findByDateTimeBetween(atStartOfDay, atStartOfDay2, param1, param2);
+    public List<Word> getNews_rangenews(LocalDateTime atStartOfDay, LocalDateTime atStartOfDay2) {
+        return wordDAO.findByDateTimeBetween(atStartOfDay, atStartOfDay2);
     }
     @Override
     public List<Word> getNews_searchnews(String param1, LocalDateTime Date) {
