@@ -126,8 +126,8 @@ function Home() {
     <main className={styles.main}>
       <div id='mainContainer' className={styles.horizontal}>
         <div className={styles.container}>
-          <h1>searchView Page</h1>
-          <p>Welcome to the searchView page</p>
+          <h1>토픽별 뉴스 검색</h1>
+          <p style={{ textAlign: "center" }}>검색어를 입력하고 날짜를 선택해주세요.<br />선택한 날로부터 7일간의 뉴스 키워드 빈도수를 시각화합니다.</p>
           <br />
           <input id='searchBox' className={styles.searchbox} type="text" placeholder="검색어를 입력하세요" />
           <Calendar

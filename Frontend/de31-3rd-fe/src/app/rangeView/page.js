@@ -118,8 +118,8 @@ function Home() {
     <main className={styles.main}>
       <div id='mainContainer' className={styles.horizontal}>
         <div className={styles.container}>
-          <h1>rangeView Page</h1>
-          <p>Welcome to the rangeView page</p>
+          <h1>기간별 뉴스 검색</h1>
+          <p style={{ textAlign: "center" }}>기간을 선택하고 검색 버튼을 눌러주세요.<br/>검색 기간 내의 뉴스 키워드 빈도수를 시각화합니다.</p>
           <br />
           {/* only display calendar when click on the input */}
           {/* if selection is end close calander view */}

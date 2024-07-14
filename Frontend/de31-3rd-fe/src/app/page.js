@@ -5,29 +5,18 @@ import tempImg from "@/images/image.png";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={{ justifyContent: "center" }}>
       <div className={styles.description}>
-        <h1>Welcome to the DE31-3rd Project!</h1>
-        <a>
-          This is a project for the DE31-3rd cohort. We are building a full
-          stack application using the following technologies:
-        </a>
-        <ul>
-          <li>React</li>
-          <li>Next.js</li>
-          <li>Node.js</li>
-          <li>Express</li>
-          <li>MongoDB</li>
-        </ul>
+        <h1>뉴스 데이터 확인 서비스입니다.</h1>
       </div>
-      <div className={styles.image}>
-        {/* get image from public folder */}
-        <Image
-          src= {tempImg}
-          alt="Next.js logo"
-          width={500}
-          height={500}
-        />
+      <a style={{ margin: "1rem" }}>상단 네비게이션 바의 버튼을 눌러 페이지를 이동해보세요.</a>
+      <div className={styles.container}>
+        <h2>기능</h2>
+        <ul>
+          <li>뉴스 검색</li>
+          <li>날짜 범위 검색</li>
+          <li>뉴스 키워드 시각화</li>
+        </ul>
       </div>
     </main>
   );
