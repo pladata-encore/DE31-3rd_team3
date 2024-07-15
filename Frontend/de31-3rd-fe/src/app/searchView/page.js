@@ -9,6 +9,8 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 
 import * as d3 from 'd3';
 
+import axios from 'axios';
+
 function Home() {
 
   const [date, setDate] = React.useState(new Date(Date.parse("2024-05-01")));
@@ -49,6 +51,15 @@ function Home() {
       .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 
+    // add title
+    svg.append("text")
+      .attr("x", (width / 2))
+      .attr("y", 0 + (margin.top / 2))
+      .attr("text-anchor", "middle")
+      .style("font-size", "20px")
+      .style("text-decoration", "underline")
+      .text("Frequency of " + wordData.label);
+
     x.domain(wordData.data.map(function (d) { return d.date; }));
     y.domain([0, d3.max(wordData.data, function (d) { return d.value; })]);
 
@@ -86,14 +97,39 @@ function Home() {
     }
   }, [wordData]);
 
+  function handleClick() {
+    // parse date to string ( yyyy-MM-dd )
+    const st_date = date.toISOString().split('T')[0];
+    const searchBoxValue = document.getElementById('searchBox').value;
+
+    axios.get('http://140.238.153.4:22000/word/searchnews', {
+      params: {
+        param1: searchBoxValue,
+        Date: st_date
+      }
+    })
+      .then((response) => {
+        console.log(response.data);
+        // only get "datetime" as "date" and "frequency" as "value"
+        const resData = response.data.map((item) => {
+          return { date: item.datetime.split("T")[0], value: item.frequency };
+        });
+        setWordData({ label: searchBoxValue, data: resData });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
   return (
     <main className={styles.main}>
       <div id='mainContainer' className={styles.horizontal}>
         <div className={styles.container}>
-          <h1>searchView Page</h1>
-          <p>Welcome to the searchView page</p>
+          <h1>토픽별 뉴스 검색</h1>
+          <p style={{ textAlign: "center" }}>검색어를 입력하고 날짜를 선택해주세요.<br />선택한 날로부터 7일간의 뉴스 키워드 빈도수를 시각화합니다.</p>
           <br />
-          <input className={styles.searchbox} type="text" placeholder="검색어를 입력하세요" />
+          <input id='searchBox' className={styles.searchbox} type="text" placeholder="검색어를 입력하세요" />
           <Calendar
             onChange={item => setDate(item)}
             direction="horizontal"
@@ -104,7 +140,7 @@ function Home() {
             maxDate={new Date(Date.parse("2024-07-09"))}
             date={date}
           />
-          <input className={styles.button} type='button' value='검색' />
+          <input className={styles.button} type='button' value='검색' onClick={handleClick} />
         </div>
         <div className={styles.container}>
           {/* Code for Barchart */}

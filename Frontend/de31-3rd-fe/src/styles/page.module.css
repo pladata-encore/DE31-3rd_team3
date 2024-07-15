@@ -20,6 +20,7 @@
 
 .container {
   display: flex;
+  flex-basis: content;
   flex-direction: column;
   justify-content: center;
   align-items: center;

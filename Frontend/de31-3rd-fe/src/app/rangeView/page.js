@@ -10,28 +10,34 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
 
+import axios from 'axios';
+
 function Home() {
+  // axios header for evade CORS policy
+  // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
+
 
   const [state, setState] = React.useState([
     {
-      startDate: Date.parse("2024-05-01"),
-      endDate: addDays(Date.parse("2024-05-01"), 1),
+      startDate: new Date(Date.parse("2024-05-01")),
+      endDate: addDays(new Date(Date.parse("2024-05-01")), 1),
       key: "selection",
     },
   ])
 
-  const [wordData, setWordData] = React.useState([{ text: "데이터를", value: 90 }, { text: "입력하세요", value: 70 },]);
+  const [wordData, setWordData] = React.useState([{ word: "데이터를", frequency: 90 }, { word: "입력하세요", frequency: 70 },]);
 
   React.useEffect(() => {
     cloud()
-      .size([400, 550])
+      .size([960, 550])
       .words(wordData)
       .padding(5)
       .rotate(function () { // -90도, 0도, 90도 중 하나
         return (~~(Math.random() * 3) - 1) * 90;
       })
       .font("Impact")
-      .fontSize((d) => d.value)
+      .fontSize((d) => d.frequency)
       .on("end", end)
       .start();
 
@@ -39,17 +45,18 @@ function Home() {
       d3.select("#word-cloud").selectAll("svg").remove();
       d3.select("#word-cloud")
         .append("svg")
-        .attr("width", 400)
+        .attr("width", 960)
         .attr("height", 550)
         .append("g")
-        .attr("transform", "translate(" + 500 / 2 + "," + 500 / 2 + ")")
+        .attr("transform", "translate(" + 960 / 2 + "," + 550 / 2 + ")")
         .attr("class", "value")
         .selectAll("text")
         .data(words)
         .enter()
         .append("text")
-        .style("font-size", function (d) {
-          return d.value + "px";
+        .style("font-size", function (d) { // font size varies with frequency
+          const size = d.frequency;
+          return size + "px";
         })
         .style("font-family", "Impact")
         .attr("text-anchor", "middle")
@@ -57,9 +64,9 @@ function Home() {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
         })
         .text(function (d) {
-          return d.text;
+          return d.word;
         })
-        .on("mouseover", onMouseOver)
+        .on("mouseover", onMouseOver) 
         .on("mouseout", onMouseOut);
     }
 
@@ -69,7 +76,7 @@ function Home() {
       d3.select("#word-cloud").append("valueText")
         .attr("x", 10)
         .attr("y", 500)
-        .text(d.value);
+        .text(d.frequency);
     }
 
     function onMouseOut(d, i) {
@@ -80,17 +87,39 @@ function Home() {
   }, [wordData]);
 
   function handleClick() {
-    console.log(state[0].startDate);
-    console.log(state[0].endDate);
-    setWordData([{ text: "버튼", value: 90 }, { text: "눌렀다", value: 70 },]);
+    // parse date to string ( yyyy-MM-dd )
+    const st_date = state[0].startDate.toISOString().split('T')[0];
+    const ed_date = state[0].endDate.toISOString().split('T')[0];
+    
+    setWordData([{ word: "버튼", frequency: 90 }, { word: "눌렀다", frequency: 70 },]);
+
+    axios.get('http://140.238.153.4:22000/word/range', {
+      params: {
+        startDate: st_date,
+        endDate: ed_date
+      }
+    })
+      .then((response) => {
+        const resData = response.data;
+        const highestFrequency = resData[0].frequency;
+        // only choose key "word" and "frequency"
+        const realData = resData.map((data) => {
+          return { word: data.word, frequency: data.frequency / highestFrequency * 300 };
+        });
+        console.log(realData);
+        setWordData(realData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
     <main className={styles.main}>
       <div id='mainContainer' className={styles.horizontal}>
         <div className={styles.container}>
-          <h1>rangeView Page</h1>
-          <p>Welcome to the rangeView page</p>
+          <h1>기간별 뉴스 검색</h1>
+          <p style={{ textAlign: "center" }}>기간을 선택하고 검색 버튼을 눌러주세요.<br/>검색 기간 내의 뉴스 키워드 빈도수를 시각화합니다.</p>
           <br />
           {/* only display calendar when click on the input */}
           {/* if selection is end close calander view */}
