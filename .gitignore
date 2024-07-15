@@ -1,20 +1,25 @@
 # basic python ignore
 *.pyc
 __pycache__/
-.ipynb_checkpoints/
+pyvenv.cfg
 
 # python venv ignore
-pyvenv.cfg
 venv/
 
 # ide ignore
 .idea/
 .vscode/
+.DS_Store
 
 # nodejs ignore
 node_modules/
 npm-debug.log
 
-# enviroment files
+# env ignore
 .env
 *.env
+
+# work folder
+mywork/
+get-api/
+get-search/
