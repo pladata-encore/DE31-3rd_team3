@@ -3,13 +3,7 @@
 ## 1. 프로젝트 소개
 강의간 배운 내용 복습 위주의 프로젝트
 
-## 2. 팀원 소개
-- 김하영 
-- 김동현
-- 조태식
-- 유선우
-
-## 3. 프로젝트 레포지토리 구조
+## 2. 프로젝트 레포지토리 구조
 ``` 
 DE31-3rd_team3
 ├── Crawler   # 크롤러 관련 코드
@@ -28,15 +22,15 @@ DE31-3rd_team3
 └── requirements.txt # python 패키지 목록
 ```
 
-## 4. Pre-requisite (사전 준비 사항)
+## 3. Pre-requisite (사전 준비 사항)
 
-### 4.1. Python 설치
+### 3.1. Python 설치
 - Python 3.10 버전 설치
 ```bash
 sudo apt install python3.10
 ``` 
 
-### 4.2. Python 패키지 설치
+### 3.2. Python 패키지 설치
 - (선택사항) 가상환경 생성
 ```bash
 python3.10 -m venv venv
@@ -48,13 +42,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4.3. mecab 설치
+### 3.3. mecab 설치
 - mecab 설치
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
 ```
 
-### 4.4. Node.js 설치
+### 3.4. Node.js 설치
 - Node.js Stable 버전 설치
 ```bash
 sudo apt install nodejs
@@ -63,7 +57,7 @@ sudo npm install -g n
 sudo n stable
 ```
 
-### 5. 네이버 뉴스 섹션 번호
+### 4. 네이버 뉴스 섹션 번호
 
 | 메인 섹션 | 서브 섹션 |
 |------|------|
